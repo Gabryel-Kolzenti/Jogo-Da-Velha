@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="img/jogo-da-velha.png" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grenal da Velha</title>
+</head>
+
+<body>
+
+    <h1>Grenal da Velha</h1>
+    <h2>Maior Clássico do Brasil</h2>
+
+    <div class="board" id="board">
+        <div class="cell" onclick="cellClicked(0)"></div>
+        <div class="cell" onclick="cellClicked(1)"></div>
+        <div class="cell" onclick="cellClicked(2)"></div>
+        <div class="cell" onclick="cellClicked(3)"></div>
+        <div class="cell" onclick="cellClicked(4)"></div>
+        <div class="cell" onclick="cellClicked(5)"></div>
+        <div class="cell" onclick="cellClicked(6)"></div>
+        <div class="cell" onclick="cellClicked(7)"></div>
+        <div class="cell" onclick="cellClicked(8)"></div>
+    </div>
+
+
+    <footer><h2>Desenvolvido por Gabryel Kolzenti 2023 &copy;</h2></footer>
+
+    <script>
+        let img = 'img/gremio-logo-0.png';
+        let currentPlayer = 'img/gremio-logo-0.png';
+        let imgInter = 'img/Escudo_do_Sport_Club_Internacional.svg.png';
+        let board = ['', '', '', '', '', '', '', '', ''];
+
+        function cellClicked(index) {
+            if (board[index] === '') {
+                board[index] = currentPlayer;
+                document.getElementById('board').children[index].innerHTML = `<img src="${currentPlayer}">`;
+                checkWinner();
+                currentPlayer = currentPlayer === img ? imgInter : img;
+            }
+        }
+
+        function audioGremio(params) {
+            const audioGremio = new Audio();
+                        audioGremio.src = 'audio/hino-do-gremio.mp3';
+                        audioGremio.volume = 0.009;
+                        audioGremio.play();
+        }
+
+        function audioInter(params) {
+            const audioInter = new Audio();
+                        audioInter.src = 'audio/Hino do Internacional.mp3';
+                        audioInter.volume = 0.009;
+                        audioInter.play();
+        }
+
+        function checkWinner() {
+            const WinCondition = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                [0, 4, 8], [2, 4, 6]
+            ];
+
+            for (let condition of WinCondition) {
+                const [a, b, c] = condition;
+                if (board[a] !== '' && board[a] === board[b] && board[a] === board[c]) {
+                    if (board[a]) {
+                        alert('O maior do Sul é Grêmio!!')
+                    audioGremio 
+                    } else if (!board[a]) {
+                    alert('O maior do Sul é Inter :(')
+                    audioInter
+                }
+                setInterval(resetBoard, 2000)
+                    return;
+            }
+
+            if (!board.includes('')) {
+                alert('EMPATE!');
+                resetBoard();
+            }
+        }
+
+        function resetBoard() {
+            currentPlayer = 'x';
+            board = ['', '', '', '', '', '', '', '', ''];
+            for (let i = 0; i < 9; i++) {
+                document.getElementById('board').children[i].innerHTML = '';
+            }
+        }
+        }
+
+    </script>
+
+</body>
+
+</html>
